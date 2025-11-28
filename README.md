@@ -9,8 +9,8 @@ Welcome to your new TanStack × Marble app!
 To run this application:
 
 ```bash
-npm install
-npm run start
+bun install
+bun start
 ```
 
 # Building For Production
@@ -18,7 +18,7 @@ npm run start
 To build this application for production:
 
 ```bash
-npm run build
+bun run build
 ```
 
 ## Testing
@@ -138,7 +138,7 @@ React-Query is an excellent addition or alternative to route loading and integra
 First add your dependencies:
 
 ```bash
-npm install @tanstack/react-query @tanstack/react-query-devtools
+bun add @tanstack/react-query @tanstack/react-query-devtools
 ```
 
 Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
