@@ -1,90 +1,30 @@
-import type {
-  MarbleAuthorList,
-  MarbleCategoryList,
-  MarblePost,
-  MarblePostList,
-  MarbleTagList,
-} from "@/types/marble";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-
-const url = import.meta.env.VITE_API_URL;
-const key = import.meta.env.VITE_PUBLIC_KEY;
-
-if (!url || !key) {
-  throw new Error(
-    "Missing MARBLE_API_URL or MARBLE_API_KEY in environment variables"
-  );
-}
+import { marble } from "./client";
 
 export const getPosts = createServerFn().handler(async () => {
-  try {
-    const raw = await fetch(`${url}/posts`, {
-      headers: {
-        Authorization: `Bearer ${key}`,
-      },
-    });
-    const data: MarblePostList = await raw.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  const posts = await marble.posts.list();
+  return posts.result;
 });
 
 export const getTags = createServerFn().handler(async () => {
-  try {
-    const raw = await fetch(`${url}/tags`, {
-      headers: {
-        Authorization: `Bearer ${key}`,
-      },
-    });
-    const data: MarbleTagList = await raw.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  const tags = await marble.tags.list();
+  return tags.result;
 });
 
 export const getSinglePost = createServerFn()
   .inputValidator(z.string())
   .handler(async ({ data: slug }) => {
-    try {
-      const raw = await fetch(`${url}/posts/${slug}`, {
-        headers: {
-          Authorization: `Bearer ${key}`,
-        },
-      });
-      const data: MarblePost = await raw.json();
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
+    const post = await marble.posts.get({ identifier: slug });
+    return post;
   });
 
 export const getCategories = createServerFn().handler(async () => {
-  try {
-    const raw = await fetch(`${url}/categories`, {
-      headers: {
-        Authorization: `Bearer ${key}`,
-      },
-    });
-    const data: MarbleCategoryList = await raw.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  const categories = await marble.categories.list();
+  return categories.result;
 });
 
 export const getAuthors = createServerFn().handler(async () => {
-  try {
-    const raw = await fetch(`${url}/authors`, {
-      headers: {
-        Authorization: `Bearer ${key}`,
-      },
-    });
-    const data: MarbleAuthorList = await raw.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  const authors = await marble.authors.list();
+  return authors.result;
 });
